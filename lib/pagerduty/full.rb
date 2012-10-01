@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'json'
 require 'net/http'
+require 'uri'
 
 module PagerDuty
   class Full
@@ -12,23 +13,35 @@ module PagerDuty
       @subdomain = subdomain
     end
 
-    def api_call(path)
+    def api_call(path, params)
 
-      url = URI.parse("http://#{@subdomain}.pagerduty.com/api/v1/#{path}")
-      http = Net::HTTP.new(url.host, url.port)
+      uri = URI.parse("http://#{@subdomain}.pagerduty.com/api/v1/#{path}")
+      http = Net::HTTP.new(uri.host, uri.port)
 
-      puts(url.to_s)
-      res = http.get(url.to_s, {
+      # This is probably stupid
+      query_string = ""
+      params.keys.inject('') do |query_string, key|
+        val = params[key]
+        next unless val != nil
+        query_string << '&' unless key == params.keys.first
+        query_string << "#{URI.encode(key.to_s)}=#{URI.encode(params[key])}"
+      end
+      uri.query = query_string
+
+      req = Net::HTTP::Get.new(uri.request_uri)
+
+      res = http.get(uri.to_s, {
         'Content-type'  => 'application/json',
         'Authorization' => "Token token=#{@apikey}"
       })
-
-      res
     end
 
-    def get_incidents()
-      res = api_call("incidents")
-      puts(res.body)
+    def get_incidents(since_date = nil, until_date = nil)
+
+      res = api_call("incidents", {
+        :since => since_date,
+        :until => until_date
+      })
       case res
       when Net::HTTPSuccess
         JSON.parse(res.body)
