@@ -15,7 +15,11 @@ sched = pd.Schedule.search()
 
 # Get who is on call
 # You can use iso8601, i suppose, if you have newer ruby
-oncallthen = pd.Schedule.find(id = sid, since_date = start_date.strftime("%FT%T%:z"), until_date = end_date.strftime("%FT%T%:z"))
+oncallthen = pd.Schedule.find(
+  id = sid,
+  since_date = start_date.strftime("%FT%T%:z"),
+  until_date = end_date.strftime("%FT%T%:z")
+)
 
 # Get incidents
 incs = pd.Incident.search(
