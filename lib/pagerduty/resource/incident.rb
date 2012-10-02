@@ -3,10 +3,12 @@ module PagerDuty
 
     class Incident < PagerDuty::Full
 
-      def search(since_date = nil, until_date = nil)
+      def search(status = nil, service = nil, since_date = nil, until_date = nil)
         res = api_call("incidents", {
-          :since => since_date,
-          :until => until_date
+          :service  => service,
+          :since    => since_date,
+          :status   => status,
+          :until    => until_date,
         })
         case res
         when Net::HTTPSuccess

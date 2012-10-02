@@ -6,6 +6,6 @@ Gem::Specification.new do |s|
   s.description = "Access to all of PagerDuty's API"
   s.authors     = ["Cory Watson"]
   s.email       = 'gphat@onemogin.com'
-  s.files       = ["lib/pagerduty-full.rb"]
+  s.files       = ["lib/pagerduty/full.rb"]
   s.homepage    = 'http://github.com/gphat/pagerduty-full'
 end
