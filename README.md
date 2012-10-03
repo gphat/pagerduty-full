@@ -1,4 +1,4 @@
-Gem for access to the full pagerduty API.
+Gem for access to the [PagerDuty REST API](http://developer.pagerduty.com/documentation/rest/).
 
 ```ruby
 require 'date'
