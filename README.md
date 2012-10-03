@@ -1,4 +1,8 @@
-Gem for access to the [PagerDuty REST API](http://developer.pagerduty.com/documentation/rest/).
+This gem is a thin wrapper arond the [PagerDuty REST API](http://developer.pagerduty.com/documentation/rest/).
+It provides methods to call the various endpoints of the API and returns the result of parsing
+the returned JSON.
+
+Argument names for the methods match the ones explained in the API documentation.
 
 ```ruby
 require 'date'
