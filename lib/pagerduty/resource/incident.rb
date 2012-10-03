@@ -26,7 +26,7 @@ module PagerDuty
 
       def search(
         assigned_to_user = nil, incident_key = nil, status = nil, service = nil,
-        since_date = nil, until_date = nil
+        since_date = nil, sort_by = nil, until_date = nil
       )
         res = api_call("incidents", {
           :assigned_to_user => assigned_to_user,

@@ -19,8 +19,7 @@ module PagerDuty
 
       # This is probably stupid
       query_string = ""
-      params.keys.inject('') do |query_string, key|
-        val = params[key]
+      params.each do |key, val|
         next unless val != nil
         query_string << '&' unless key == params.keys.first
         query_string << "#{URI.encode(key.to_s)}=#{URI.encode(params[key])}"
