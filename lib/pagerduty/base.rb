@@ -14,7 +14,7 @@ module PagerDuty
 
     def api_call(path, params)
 
-      uri = URI.parse("http://#{@subdomain}.pagerduty.com/api/v1/#{path}")
+      uri = URI.parse("https://#{@subdomain}.pagerduty.com/api/v1/#{path}")
       http = Net::HTTP.new(uri.host, uri.port)
 
       # This is probably stupid
