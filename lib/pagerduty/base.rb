@@ -16,16 +16,11 @@ module PagerDuty
 
       uri = URI.parse("https://#{@subdomain}.pagerduty.com/api/v1/#{path}")
       http = Net::HTTP.new(uri.host, uri.port)
-
-      # This is probably stupid
-      query_string = ""
-      params.each do |key, val|
-        next unless val != nil
-        query_string << '&' unless key == params.keys.first
-        query_string << "#{URI.encode(key.to_s)}=#{URI.encode(params[key])}"
+      output = []
+      params.each_pair do |key,val|
+        output << "#{URI.encode(key.to_s)}=#{URI.encode(val)}"
       end
-      uri.query = query_string
-
+      uri.query = "?#{output.join("&")}"
       req = Net::HTTP::Get.new(uri.request_uri)
 
       res = http.get(uri.to_s, {
