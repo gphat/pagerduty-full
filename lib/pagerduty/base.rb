@@ -22,7 +22,7 @@ module PagerDuty
           output << "#{URI.encode(key.to_s)}=#{URI.encode(val)}"
         end
       end
-      uri.query = "?#{output.join("&")}"
+      uri.query = "#{output.join("&")}"
       req = Net::HTTP::Get.new(uri.request_uri)
 
       res = http.get(uri.to_s, {
