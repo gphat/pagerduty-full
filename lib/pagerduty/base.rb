@@ -18,7 +18,9 @@ module PagerDuty
       http = Net::HTTP.new(uri.host, uri.port)
       output = []
       params.each_pair do |key,val|
-        output << "#{URI.encode(key.to_s)}=#{URI.encode(val)}"
+        if (!val.nil?)
+          output << "#{URI.encode(key.to_s)}=#{URI.encode(val)}"
+        end
       end
       uri.query = "?#{output.join("&")}"
       req = Net::HTTP::Get.new(uri.request_uri)
