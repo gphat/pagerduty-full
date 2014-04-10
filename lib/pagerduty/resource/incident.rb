@@ -44,6 +44,18 @@ module PagerDuty
           res.error!
         end
       end
+
+
+      def notes(id)
+        res = api_call("incidents/#{id}/notes", {})
+        case res
+          when Net::HTTPSuccess
+            JSON.parse(res.body)
+          else
+            res.error!
+        end
+      end
+
     end
   end
 end

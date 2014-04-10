@@ -16,6 +16,8 @@ module PagerDuty
 
       uri = URI.parse("https://#{@subdomain}.pagerduty.com/api/v1/#{path}")
       http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       output = []
       params.each_pair do |key,val|
         if (!val.nil?)
