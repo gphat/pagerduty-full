@@ -8,6 +8,4 @@ Gem::Specification.new do |s|
   s.email       = 'gphat@onemogin.com'
   s.files       = ["lib/pagerduty/full.rb"]
   s.homepage    = 'http://github.com/gphat/pagerduty-full'
-
-  s.add_runtime_dependency 'openssl'
 end
