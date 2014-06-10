@@ -6,12 +6,11 @@ require 'openssl'
 module PagerDuty
   class Full
 
-    attr_reader :apikey, :subdomain,:service_api_key
+    attr_reader :apikey, :subdomain,
 
-    def initialize(apikey, subdomain, service_api_key = nil)
+    def initialize(apikey, subdomain)
       @apikey = apikey
       @subdomain = subdomain
-      @service_api_key = service_api_key
     end
 
     def api_call(path, params)
