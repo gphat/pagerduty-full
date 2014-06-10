@@ -6,7 +6,7 @@ require 'openssl'
 module PagerDuty
   class Full
 
-    attr_reader :apikey, :subdomain,
+    attr_reader :apikey, :subdomain
 
     def initialize(apikey, subdomain)
       @apikey = apikey

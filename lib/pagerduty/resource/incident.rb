@@ -34,7 +34,7 @@ module PagerDuty
       end
 
 
-      def create(service_key,description,incident_key,client = nil, client_url = nil, details = nil)
+      def create(service_key,description,incident_key = nil,client = nil, client_url = nil, details = nil)
         json = {
             "service_key" => service_key,
             "event_type" => "trigger",
