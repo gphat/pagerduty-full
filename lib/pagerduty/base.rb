@@ -5,7 +5,6 @@ require 'openssl'
 
 module PagerDuty
   class Full
-
     attr_reader :apikey, :subdomain
 
     def initialize(apikey, subdomain)
@@ -68,6 +67,25 @@ module PagerDuty
       end
       whole_output
     end
+
+    def integration_api_call(params)
+      uri = URI.parse("https://events.pagerduty.com")
+      path = "/generic/2010-04-15/create_event.json"
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+      req = Net::HTTP::Post.new(path,initheader = {'Content-type'  => 'application/json'})
+      req.body = params.to_json
+      response = http.start {|http| http.request(req) }
+      output = nil
+      case response
+        when Net::HTTPSuccess
+          output = JSON.parse(response.body)
+      end
+      output
+    end
+
 
     def Incident()
       PagerDuty::Resource::Incident.new(@apikey, @subdomain)
