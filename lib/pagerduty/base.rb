@@ -76,5 +76,9 @@ module PagerDuty
     def Schedule()
       PagerDuty::Resource::Schedule.new(@apikey, @subdomain)
     end
+
+    def Escalation()
+      PagerDuty::Resource::Escalation.new(@apikey, @subdomain)
+    end
   end
 end
