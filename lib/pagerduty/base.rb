@@ -94,5 +94,9 @@ module PagerDuty
     def Schedule()
       PagerDuty::Resource::Schedule.new(@apikey, @subdomain)
     end
+
+    def Service()
+      PagerDuty::Resource::Service.new(@apikey, @subdomain)
+    end
   end
 end
