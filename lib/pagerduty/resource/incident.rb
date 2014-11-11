@@ -47,6 +47,19 @@ module PagerDuty
         integration_api_call(json)
       end
 
+      def resolve(service_key,description,incident_key,client = nil, client_url = nil, details = nil)
+        json = {
+            "service_key" => service_key,
+            "incident_key" => incident_key,
+            "event_type" => "resolve",
+            "description" => description,
+        }
+        json.merge!({"client" => client}) if !client.nil?
+        json.merge!({"client_url" => client_url}) if !client_url.nil?
+        json.merge!({"details" => details}) if !details.nil?
+        integration_api_call(json)
+      end
+
       def notes(id)
         api_call("incidents/#{id}/notes", {})
       end
