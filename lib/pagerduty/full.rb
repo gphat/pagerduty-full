@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'pagerduty/base'
+require 'pagerduty/resource/escalation'
 require 'pagerduty/resource/incident'
 require 'pagerduty/resource/schedule'
 require 'pagerduty/resource/service'

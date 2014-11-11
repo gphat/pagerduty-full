@@ -86,6 +86,9 @@ module PagerDuty
       output
     end
 
+    def Escalation()
+      PagerDuty::Resource::Escalation.new(@apikey, @subdomain)
+    end
 
     def Incident()
       PagerDuty::Resource::Incident.new(@apikey, @subdomain)

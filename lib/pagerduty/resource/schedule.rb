@@ -3,6 +3,14 @@ module PagerDuty
 
     class Schedule < PagerDuty::Full
 
+      def entries(id, since_date = nil, until_date = nil, overflow = false)
+        api_call("schedules/#{id}/entries", {
+         :since => since_date,
+         :until => until_date,
+         :overflow => (overflow ? "true" : "false")
+        })
+      end
+
       def find(id, since_date = nil, until_date = nil)
         api_call("schedules/#{id}", {
             :since => since_date,
