@@ -5,17 +5,30 @@ require 'openssl'
 
 module PagerDuty
   class Full
-    attr_reader :apikey, :subdomain
+    attr_reader :apikey, :subdomain, :http_proxy
 
-    def initialize(apikey, subdomain)
+    @@proxy_args = []
+
+    def initialize(apikey, subdomain, *http_proxy)
       @apikey = apikey
       @subdomain = subdomain
+      @http_proxy = http_proxy
+
+      if !@http_proxy.empty?
+        proxy_url  = URI.parse(@http_proxy[0])
+        @@proxy_args[0] = proxy_url.host
+        @@proxy_args[1] = proxy_url.port
+
+        if !proxy_url.user.nil?
+          @@proxy_args[2] = proxy_url.user
+          @@proxy_args[3] = proxy_url.password
+        end
+      end
     end
 
     def api_call(path, params)
-
       uri = URI.parse("https://#{@subdomain}.pagerduty.com/api/v1/#{path}")
-      http = Net::HTTP.new(uri.host, uri.port)
+      http = Net::HTTP.new(uri.host, uri.port, *@@proxy_args)
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
@@ -29,7 +42,6 @@ module PagerDuty
           end
         end
         uri.query = "#{output.join("&")}"
-        req = Net::HTTP::Get.new(uri.request_uri)
 
         res = http.get(uri.to_s, {
             'Content-type'  => 'application/json',
@@ -71,7 +83,7 @@ module PagerDuty
     def integration_api_call(params)
       uri = URI.parse("https://events.pagerduty.com")
       path = "/generic/2010-04-15/create_event.json"
-      http = Net::HTTP.new(uri.host, uri.port)
+      http = Net::HTTP.new(uri.host, uri.port, *@@proxy_args)
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
