@@ -12,7 +12,11 @@ require 'pagerduty/full'
 start_date = Date.parse("2012-09-24T00:00Z")
 end_date = Date.parse("2012-10-09T07:01Z")
 
-pd = PagerDuty::Full.new(apikey = YOURKEY, subdomain = YOURDOMAIN)
+pd = PagerDuty::Full.new(apikey = YOURKEY, subdomain = YOURDOMAIN, http_proxy = PROXY_URL)
+
+YOURKEY is required, get one from https://YOURDOMAIN.pagerduty.com/api_keys
+YOURDOMAIN is required, the pagerduty.com subdomain
+PROXY_URL is optional, format http(s)://USER:PASS@HOST:PORT, USER & PASS are optional
 
 # Get list of schedules
 sched = pd.Schedule.search()
