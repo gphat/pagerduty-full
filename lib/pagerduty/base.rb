@@ -56,7 +56,7 @@ module PagerDuty
           when Net::HTTPSuccess
             output = JSON.parse(res.body)
             whole_output.each_key do |key|
-              if (key != "limit" and key != "offset" and key != "total")
+              if (key != "limit" and key != "offset" and key != "total" and key != "active_account_users" and key != "query")
                 if (output.has_key?(key))
                   output[key].each do |o|
                     whole_output[key].push(o)
