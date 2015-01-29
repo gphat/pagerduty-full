@@ -26,11 +26,15 @@ module PagerDuty
       end
     end
 
-    def api_call(path, params)
-      uri = URI.parse("https://#{@subdomain}.pagerduty.com/api/v1/#{path}")
+    def create_http(uri)
       http = Net::HTTP.new(uri.host, uri.port, *@@proxy_args)
       http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      http
+    end
+
+    def api_call(path, params)
+      uri = URI.parse("https://#{@subdomain}.pagerduty.com/api/v1/#{path}")
+      http = create_http(uri)
 
       finished = false
       whole_output = {}
@@ -78,6 +82,40 @@ module PagerDuty
         end
       end
       whole_output
+    end
+
+    def post_api_call(path, params)
+      uri = URI.parse("https://#{@subdomain}.pagerduty.com/api/v1/#{path}")
+      http = create_http(uri)
+
+      res = http.post(uri.to_s, params.to_json, {
+        'Content-type'  => 'application/json',
+        'Authorization' => "Token token=#{@apikey}"
+      })
+
+      output = nil
+      case res
+        when Net::HTTPSuccess
+          output = JSON.parse(res.body)
+      end
+      output
+    end
+
+    def delete_api_call(path)
+      uri = URI.parse("https://#{@subdomain}.pagerduty.com/api/v1/#{path}")
+      http = create_http(uri)
+
+      res = http.delete(uri.to_s, {
+        'Content-type'  => 'application/json',
+        'Authorization' => "Token token=#{@apikey}"
+      })
+
+      output = nil
+      case res
+        when Net::HTTPSuccess, Net::HTTPNoContent
+          output = JSON.parse(res.body)
+      end
+      output
     end
 
     def integration_api_call(params)
