@@ -29,7 +29,6 @@ module PagerDuty
     def create_http(uri)
       http = Net::HTTP.new(uri.host, uri.port, *@@proxy_args)
       http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       http
     end
 
