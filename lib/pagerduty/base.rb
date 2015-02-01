@@ -56,7 +56,7 @@ module PagerDuty
           when Net::HTTPSuccess
             output = JSON.parse(res.body)
             whole_output.each_key do |key|
-              if (key != "limit" and key != "offset" and key != "total")
+              if (key != "limit" and key != "offset" and key != "total" and key != "active_account_users" and key != "query")
                 if (output.has_key?(key))
                   output[key].each do |o|
                     whole_output[key].push(o)
@@ -89,6 +89,23 @@ module PagerDuty
       http = create_http(uri)
 
       res = http.post(uri.to_s, params.to_json, {
+        'Content-type'  => 'application/json',
+        'Authorization' => "Token token=#{@apikey}"
+      })
+
+      output = nil
+      case res
+        when Net::HTTPSuccess
+          output = JSON.parse(res.body)
+      end
+      output
+    end
+
+    def put_api_call(path, params)
+      uri = URI.parse("https://#{@subdomain}.pagerduty.com/api/v1/#{path}")
+      http = create_http(uri)
+
+      res = http.put(uri.to_s, params.to_json, {
         'Content-type'  => 'application/json',
         'Authorization' => "Token token=#{@apikey}"
       })
@@ -150,6 +167,10 @@ module PagerDuty
 
     def Service()
       PagerDuty::Resource::Service.new(@apikey, @subdomain)
+    end
+
+    def Users()
+      PagerDuty::Resource::Users.new(@apikey, @subdomain)
     end
   end
 end
